@@ -102,7 +102,8 @@ namespace ProgettoSettimanale2_BU2.Controllers
 
             if (!signInResult.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError(string.Empty, "Email o password non validi.");
+                return View(model);
             }
             var roles = await _signInManager.UserManager.GetRolesAsync(user);
 

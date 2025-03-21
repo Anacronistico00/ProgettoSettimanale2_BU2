@@ -10,7 +10,6 @@
     <div class="form-group">
         <label asp-for="ClienteId">Cliente</label>
         <select asp-for="ClienteId" class="form-control">
-            <option value="">Seleziona un cliente</option>
             @foreach (var cliente in ViewBag.Clienti)
             {
                 <option value="@cliente.ClienteId">@cliente.Nome @cliente.Cognome</option>
@@ -22,7 +21,6 @@
     <div class="form-group">
         <label asp-for="CameraId">Camera</label>
         <select asp-for="CameraId" class="form-control">
-            <option value="">Seleziona una camera</option>
             @foreach (var camera in ViewBag.Camere)
             {
                 <option value="@camera.CameraId">Camera @camera.Numero</option>
@@ -44,9 +42,14 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Stato">Stato</label>
-        <input asp-for="Stato" class="form-control" />
-        <span asp-validation-for="Stato" class="text-danger"></span>
+        <label asp-for="Stato">Stato di pagamento</label>
+        <select asp-for="Stato" class="form-control">
+            @foreach (var stato in ViewBag.Stati)
+            {
+                <option value="@stato.StatoId">@stato.Nome</option>
+            }
+        </select>
+        <span asp-validation-for="CameraId" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Salva</button>

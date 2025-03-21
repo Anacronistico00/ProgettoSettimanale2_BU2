@@ -29,6 +29,7 @@ namespace ProgettoSettimanale2_BU2.Controllers
         {
             ViewBag.Clienti = await _clienteService.GetClientiListAsync();
             ViewBag.Camere = await _cameraService.GetCamereListAsync();
+            ViewBag.Stati = await _cameraService.GetCameraStatiAsync();
             return View();
         }
 
@@ -54,6 +55,7 @@ namespace ProgettoSettimanale2_BU2.Controllers
 
             ViewBag.Clienti = await _clienteService.GetClientiListAsync();
             ViewBag.Camere = await _cameraService.GetCamereListAsync();
+            ViewBag.Stati = await _cameraService.GetCameraStatiAsync();
 
             var modelloPrenotazione = new EditPrenotazioneViewModel
             {

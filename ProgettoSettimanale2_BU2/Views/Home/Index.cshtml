@@ -1,8 +1,57 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard Albergo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="row text-center">
+        <div class="col-12">
+            <h1 class="display-4">Benvenuto nel Gestionale dell'Albergo</h1>
+            <p class="lead">Gestisci camere, prenotazioni e clienti in modo semplice ed efficiente.</p>
+        </div>
+    </div>
+    @if(User.Identity.IsAuthenticated) {
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Camere Disponibili</div>
+                <div class="card-body">
+                    <h5 class="card-title">20 Camere</h5>
+                    <p class="card-text">Camere disponibili per prenotazioni future.</p>
+                    <a href="/Camere" class="btn btn-light">Visualizza Camere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Prenotazioni Recenti</div>
+                <div class="card-body">
+                    <h5 class="card-title">5 Prenotazioni</h5>
+                    <p class="card-text">Prenotazioni recenti dei nostri clienti.</p>
+                    <a href="/Prenotazioni" class="btn btn-light">Visualizza Prenotazioni</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Clienti Registrati</div>
+                <div class="card-body">
+                    <h5 class="card-title">150 Clienti</h5>
+                    <p class="card-text">Elenco dei clienti registrati nel sistema.</p>
+                    <a href="/Clienti" class="btn btn-light">Visualizza Clienti</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else {
+    <div class="row mt-5">
+        <div class="col-12">
+            <p class="lead">Per accedere al sistema, effettua il login.</p>
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
+        </div>
+    </div>
+    }
+
 </div>

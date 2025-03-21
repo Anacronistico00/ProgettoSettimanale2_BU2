@@ -24,6 +24,11 @@ namespace ProgettoSettimanale2_BU2.Services
             return await _context.Camere.ToListAsync();
         }
 
+        public async Task<List<Stato>> GetCameraStatiAsync()
+        {
+            return await _context.Stati.ToListAsync();
+        }
+
         public async Task<Camera> GetCameraByIdAsync(Guid id)
         {
             return await _context.Camere.Include(c => c.Tipo).FirstOrDefaultAsync(c => c.CameraId == id);

@@ -39,6 +39,15 @@ namespace ProgettoSettimanale2_BU2.Controllers
         {
             try
             {
+                var emailEsistente = await _context.Clienti.FirstOrDefaultAsync(c => c.Email == cliente.Email);
+
+                if (emailEsistente != null)
+                {
+                    ModelState.AddModelError("Email", "L'email è già registrata.");
+
+                    return View(cliente);
+                }
+
                 await _clienteService.AddClienteAsync(cliente, User);
                 return RedirectToAction("Index");
             }
