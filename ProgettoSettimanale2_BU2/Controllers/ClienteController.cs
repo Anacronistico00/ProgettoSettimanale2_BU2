@@ -22,6 +22,7 @@ namespace ProgettoSettimanale2_BU2.Controllers
             _userManager = userManager;
             _loggerService = loggerService;
         }
+
         public async Task<IActionResult> Index()
         {
             var clienti = await _clienteService.GetAllClientiAsync();

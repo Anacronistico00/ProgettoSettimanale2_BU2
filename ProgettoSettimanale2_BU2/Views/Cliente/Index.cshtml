@@ -4,31 +4,43 @@
 
 <a asp-controller="Cliente" asp-action="Add" class="btn btn-success mb-3">Aggiungi Cliente</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Email</th>
-            <th>Telefono</th>
-            <th>Aggiunto da</th>
-            <th>Azioni</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var cliente in Model)
-        {
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@cliente.Nome</td>
-                <td>@cliente.Cognome</td>
-                <td>@cliente.Email</td>
-                <td>@cliente.Telefono</td>
-                <td>@cliente.User.FirstName @cliente.User.LastName</td>
-                <td>
-                    <a asp-controller="Cliente" asp-action="Edit" asp-route-id="@cliente.ClienteId" class="btn btn-warning">Modifica</a>
-                    <a asp-controller="Cliente" asp-action="Delete" asp-route-id="@cliente.ClienteId" class="btn btn-danger">Elimina</a>
-                </td>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Aggiunto da</th>
+                @if(@User.IsInRole("Responsabile")){
+                    <th>Azioni</th>
+                }
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Cognome</td>
+                    <td>@cliente.Email</td>
+                    <td>@cliente.Telefono</td>
+                    <td>@cliente.User.FirstName @cliente.User.LastName</td>
+                    @if(@User.IsInRole("Responsabile")){
+                    <td>
+                        <a asp-controller="Cliente" asp-action="Edit" asp-route-id="@cliente.ClienteId" class="btn btn-warning">Modifica</a>
+                        <a asp-controller="Cliente" asp-action="Delete" asp-route-id="@cliente.ClienteId" class="btn btn-danger">Elimina</a>
+                    </td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-danger">Non ci sono clienti registrati!</p>
+}

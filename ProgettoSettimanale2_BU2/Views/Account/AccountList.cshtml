@@ -37,7 +37,10 @@
                     }
                 </td>
                 <td>
-                    <a href="@Url.Action("Details", "User", new { id = user.Id })">Dettagli</a>
+                    <a asp-controller="Account" asp-action="Delete"  asp-route-id="@user.Id"
+                       onclick="return confirm('Sei sicuro di voler rimuovere questo elemento?');">
+                        Rimuovi
+                    </a>
                 </td>
             </tr>
         }

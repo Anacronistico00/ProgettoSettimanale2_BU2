@@ -32,9 +32,9 @@ namespace ProgettoSettimanale2_BU2.Data
             modelBuilder.Entity<ApplicationUserRole>().HasOne(p => p.Role).WithMany(p => p.ApplicationUserRoles).HasForeignKey(p => p.RoleId).IsRequired(true);
 
             modelBuilder.Entity<Prenotazione>().Property(p => p.CreatedAt).HasDefaultValueSql("GETDATE()").IsRequired(true);
-            modelBuilder.Entity<Prenotazione>().HasOne(p => p.Camera).WithMany(c => c.Prenotazioni).HasForeignKey(p => p.CameraId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Prenotazione>().HasOne(p => p.Camera).WithMany(c => c.Prenotazioni).HasForeignKey(p => p.CameraId).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Cliente>().HasOne(p => p.User).WithMany(u => u.Clienti).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Cliente>().HasOne(p => p.User).WithMany(u => u.Clienti).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Cliente>().HasIndex(c => c.Email).IsUnique();
             modelBuilder.Entity<Camera>().Property(c => c.Prezzo).HasColumnType("DECIMAL(10, 2)");
             modelBuilder.Entity<Camera>().HasOne(c => c.Tipo).WithMany(t => t.Camere).HasForeignKey(c => c.TipoId).OnDelete(DeleteBehavior.Restrict);

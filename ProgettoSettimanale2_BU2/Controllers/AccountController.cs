@@ -6,20 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using ProgettoSettimanale2_BU2.Models;
 using ProgettoSettimanale2_BU2.ViewModels;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using ProgettoSettimanale2_BU2.Data;
 
 namespace ProgettoSettimanale2_BU2.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         private bool verifyAuth()
@@ -77,7 +82,7 @@ namespace ProgettoSettimanale2_BU2.Controllers
             return View(model);
         }
 
-
+        [AllowAnonymous]
         public IActionResult Login()
         {
             if (verifyAuth())
@@ -87,6 +92,7 @@ namespace ProgettoSettimanale2_BU2.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -128,7 +134,7 @@ namespace ProgettoSettimanale2_BU2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -136,16 +142,17 @@ namespace ProgettoSettimanale2_BU2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(string id)
         {
-            var user = await _userManager.FindByEmailAsync(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value);
-            await _userManager.DeleteAsync(user);
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var user = _context.Users.Find(id);
+            if (user != null)
+            {
+                user.IsDeleted = true;
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
         public async Task<IActionResult> AccountList()
         {
             var users = _userManager.Users.ToList();

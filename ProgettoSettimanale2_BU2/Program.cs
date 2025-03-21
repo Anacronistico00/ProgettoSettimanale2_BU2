@@ -36,7 +36,6 @@ builder.Services.AddAuthentication(options =>
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
         options.AccessDeniedPath = "/Account/Login";
         options.Cookie.Name = "GestionaleStudenti";
         options.Cookie.HttpOnly = true;
