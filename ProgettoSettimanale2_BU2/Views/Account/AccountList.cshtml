@@ -1,0 +1,45 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Lista Dipendenti";
+}
+
+<h2>Lista Dipendenti Registrati</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Data di Nascita</th>
+            <th>Ruolo</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.BirthDate.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @foreach (var userRole in (List<Tuple<ApplicationUser, IEnumerable<string>>>)ViewBag.UserRoles)
+                    {
+                        if (userRole.Item1.Id == user.Id)
+                        {
+                            @foreach (var role in userRole.Item2)
+                            {
+                                <span>@role</span>
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "User", new { id = user.Id })">Dettagli</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,13 @@
+﻿@model Cliente
+ @{
+    ViewData["Title"] = "Elimina Cliente";
+ }
+
+<h2>Conferma eliminazione</h2>
+<p>Sei sicuro di voler eliminare il cliente @Model.Nome @Model.Cognome?</p>
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.ClienteId" />
+    <button type="submit" class="btn btn-danger">Elimina</button>
+    <a href="@Url.Action("Index", "Cliente")" class="btn btn-secondary">Annulla</a>
+</form>

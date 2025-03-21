@@ -1,0 +1,33 @@
+﻿@model List<Camera>
+
+@{
+    ViewData["Title"] = "Lista Camere";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Tipo</th>
+            <th>Prezzo</th>
+            <th>Disponibile</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var camera in Model)
+        {
+            <tr>
+                <td>@camera.Numero</td>
+                <td>@camera.Tipo.Nome</td>
+                <td>@camera.Prezzo.ToString("C2")</td>
+                <td>@(camera.Disponibile ? "Sì" : "No")</td>
+                <td>
+                    <a asp-controller="Camera" asp-action="Details" asp-route-id="@camera.CameraId" class="btn btn-info">Dettagli</a>
+                    <a asp-controller="Camera" asp-action="Edit" asp-route-id="@camera.CameraId" class="btn btn-warning">Modifica</a>
+                    <a asp-controller="Camera" asp-action="Delete" asp-route-id="@camera.CameraId" class="btn btn-danger">Elimina</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,32 @@
+﻿@model Camera
+
+@{
+    ViewData["Title"] = "Conferma eliminazione";
+}
+
+<h1>Conferma eliminazione</h1>
+
+<h3>Sei sicuro di voler eliminare la camera @Model.Numero?</h3>
+
+<div>
+    <h4>Camera</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Numero</dt>
+        <dd class="col-sm-10">@Model.Numero</dd>
+
+        <dt class="col-sm-2">Tipo</dt>
+        <dd class="col-sm-10">@Model.Tipo.Nome</dd>
+
+        <dt class="col-sm-2">Prezzo</dt>
+        <dd class="col-sm-10">@Model.Prezzo</dd>
+
+        <dt class="col-sm-2">Disponibile</dt>
+        <dd class="col-sm-10">@Model.Disponibile</dd>
+    </dl>
+</div>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Elimina</button>
+    <a asp-controller="Camera" asp-action="Index" class="btn btn-secondary">Annulla</a>
+</form>
