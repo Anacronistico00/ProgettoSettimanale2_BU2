@@ -43,12 +43,16 @@ namespace ProgettoSettimanale2_BU2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(AddPrenotazioneViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _prenotazioneService.AddPrenotazioneAsync(model);
-                return RedirectToAction(nameof(Index));
+                ViewBag.Clienti = await _clienteService.GetClientiListAsync();
+                ViewBag.Camere = await _cameraService.GetCamereListAsync();
+                ViewBag.Stati = await _cameraService.GetCameraStatiAsync();
+                return View(model);
             }
-            return View(model);
+
+            await _prenotazioneService.AddPrenotazioneAsync(model);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -59,9 +63,9 @@ namespace ProgettoSettimanale2_BU2.Controllers
                 return NotFound();
             }
 
-            ViewBag.Clienti = await _clienteService.GetClientiListAsync();
-            ViewBag.Camere = await _cameraService.GetCamereListAsync();
-            ViewBag.Stati = await _cameraService.GetCameraStatiAsync();
+            ViewBag.Clienti = new SelectList(await _clienteService.GetClientiListAsync(), "ClienteId", "Nome");
+            ViewBag.Camere = new SelectList(await _cameraService.GetCamereListAsync(), "CameraId", "Numero");
+            ViewBag.Stati = new SelectList(await _cameraService.GetCameraStatiAsync(), "StatoId", "Nome");
 
             var modelloPrenotazione = new EditPrenotazioneViewModel
             {
@@ -80,18 +84,21 @@ namespace ProgettoSettimanale2_BU2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditPrenotazioneViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Clienti = new SelectList(await _clienteService.GetClientiListAsync(), "ClienteId", "Nome");
+                ViewBag.Camere = new SelectList(await _cameraService.GetCamereListAsync(), "CameraId", "Numero");
+                ViewBag.Stati = new SelectList(await _cameraService.GetCameraStatiAsync(), "StatoId", "Nome");
+
+                return View(model);
+            }
             if (id != model.PrenotazioneId)
             {
-                return NotFound();
+                return View(model);
             }
 
-            if (ModelState.IsValid)
-            {
-                await _prenotazioneService.UpdatePrenotazioneAsync(model);
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(model);
+            await _prenotazioneService.UpdatePrenotazioneAsync(model);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(Guid id)
