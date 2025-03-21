@@ -1,0 +1,36 @@
+﻿@model List<Prenotazione>
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Camera</th>
+                <th>Data Inizio</th>
+                <th>Data Fine</th>
+                <th>Stato</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prenotazione in Model)
+            {
+                <tr>
+                    <td>@prenotazione.Cliente.Nome @prenotazione.Cliente.Cognome</td>
+                    <td>Camera @prenotazione.Camera.Numero</td>
+                    <td>@prenotazione.DataInizio.ToShortDateString()</td>
+                    <td>@prenotazione.DataFine.ToShortDateString()</td>
+                    <td>@prenotazione.Stato.Nome</td>
+                    <td>
+                        <a asp-controller="Prenotazione" asp-action="Edit" asp-route-id="@prenotazione.PrenotazioneId" class="btn btn-warning">Modifica</a>
+                        <a asp-controller="Prenotazione" asp-action="Delete" asp-route-id="@prenotazione.PrenotazioneId" class="btn btn-danger">Elimina</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-danger">Non ci sono studenti in lista!</p>
+}

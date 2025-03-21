@@ -21,8 +21,14 @@ namespace ProgettoSettimanale2_BU2.Controllers
 
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+
+        [HttpGet("Prenotazioni/GetAllPrenotazioni")]
+        public async Task<IActionResult> GetAllPrenotazioni()
+        {
             var prenotazioni = await _prenotazioneService.GetAllPrenotazioniAsync();
-            return View(prenotazioni);
+            return PartialView("_prenotazioniList", prenotazioni);
         }
 
         public async Task<IActionResult> Add()
